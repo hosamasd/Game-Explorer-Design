@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol gameCardProtocol {
+    func didGameCardTapped()
+}
+
 class NextGamesCollectionViewCell: BaseCollectionCell {
     
     var delegate:gameCardProtocol?

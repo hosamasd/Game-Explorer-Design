@@ -120,8 +120,8 @@ extension HomeVC:UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, U
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if indexPath.row == 0 {
-            return CGSize(width: collectionView.frame.width, height: 360)
+        if indexPath.item == 0 {
+            return CGSize(width: collectionView.frame.width-32, height: 360)
         } else {
             return CGSize(width: collectionView.frame.width, height: 270 + 70)
         }

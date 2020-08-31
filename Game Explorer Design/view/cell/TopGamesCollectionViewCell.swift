@@ -28,23 +28,9 @@ class TopGamesCollectionViewCell: BaseCollectionCell {
         return v
     }()
     
-    lazy var horizontalStackView:UIStackView = {
-        let v = UIStackView()
-        v.translatesAutoresizingMaskIntoConstraints = false
-        v.axis = .horizontal
-        v.distribution = .fillEqually
-        v.spacing = 20
-        return v
-    }()
+    lazy var horizontalStackView=getStack(views: HView1,HView2, spacing: 20, distribution: .fillEqually, axis: .horizontal)
     
-    lazy var verticalStackView:UIStackView = {
-        let v = UIStackView()
-        v.translatesAutoresizingMaskIntoConstraints = false
-        v.axis = .vertical
-        v.distribution = .fillEqually
-        v.spacing = 20
-        return v
-    }()
+    lazy var verticalStackView = getStack(views: VView1,VView2, spacing: 20, distribution: .fillEqually, axis: .vertical)
     
     lazy var HView1:UIView = {
         let v = UIView()
@@ -61,6 +47,7 @@ class TopGamesCollectionViewCell: BaseCollectionCell {
         v.layer.shadowOffset = CGSize(width: 0, height: 5)
         v.layer.shadowRadius = 12
         v.layer.shadowOpacity = 0.3
+        
         return v
     }()
     
@@ -95,8 +82,11 @@ class TopGamesCollectionViewCell: BaseCollectionCell {
         img.translatesAutoresizingMaskIntoConstraints = false
         img.clipsToBounds = true
         img.layer.cornerRadius = 10
-        img.contentMode = .scaleAspectFill
+        img.constrainWidth(constant: (frame.width-32)/2)
+//        img.contentMode = .scaleAspectFill
         img.image = UIImage(named: "img1")
+        img.stack(UIView(),hstack(label1,UIView()))
+
         return img
     }()
     
@@ -105,8 +95,9 @@ class TopGamesCollectionViewCell: BaseCollectionCell {
         img.translatesAutoresizingMaskIntoConstraints = false
         img.clipsToBounds = true
         img.layer.cornerRadius = 10
-        img.contentMode = .scaleAspectFill
+//        img.contentMode = .scaleAspectFill
         img.image = UIImage(named: "img2")
+        img.stack(UIView(),hstack(label2,UIView()))
         return img
     }()
     
@@ -117,6 +108,8 @@ class TopGamesCollectionViewCell: BaseCollectionCell {
         img.layer.cornerRadius = 10
         img.contentMode = .scaleAspectFill
         img.image = UIImage(named: "img3")
+        img.stack(UIView(),hstack(label3,UIView()))
+
         return img
     }()
     
@@ -167,39 +160,12 @@ class TopGamesCollectionViewCell: BaseCollectionCell {
     }()
     
     override func setupViews() {
-        headingLabel.constrainHeight(constant: 25)
         
-        addSubViews(views: headingLabel,optionBtn,cardView)
-        
-        cardView.addSubview(horizontalStackView)
-        horizontalStackView.fillSuperview()
-        horizontalStackView.addArrangedSubview(HView1)
-        horizontalStackView.addArrangedSubview(HView2)
-        HView1.addSubview(verticalStackView)
-        
-        verticalStackView.fillSuperview()
-        verticalStackView.addArrangedSubview(VView1)
-        verticalStackView.addArrangedSubview(VView2)
-        
-        VView1.addSubViews(views: image1,image2,image3,overlayView1,overlayView2,overlayView3)
-        
-        overlayView1.addSubview(label1)
-        overlayView2.addSubview(label2)
-        overlayView3.addSubview(label3)
-        
-        image1.fillSuperview()
-        image2.fillSuperview()
-        image3.fillSuperview()
-        
-        headingLabel.anchor(top: topAnchor, leading: leadingAnchor, bottom: nil, trailing: nil,padding: .init(top: 30, left: 25, bottom: 0, right: 0))
-        optionBtn.anchor(top: topAnchor, leading: nil, bottom: nil, trailing: trailingAnchor,padding: .init(top: 30, left: 0, bottom: 0, right: 30))
-        overlayView1.anchor(top: nil, leading: VView1.leadingAnchor, bottom: VView1.bottomAnchor, trailing: VView1.trailingAnchor)
-        overlayView2.anchor(top: nil, leading: VView2.leadingAnchor, bottom: VView2.bottomAnchor, trailing: VView2.trailingAnchor)
-        overlayView3.anchor(top: nil, leading: HView2.leadingAnchor, bottom: HView2.bottomAnchor, trailing: HView2.trailingAnchor)
-        
-        label1.anchor(top: nil, leading: overlayView1.leadingAnchor, bottom: overlayView1.bottomAnchor, trailing: overlayView1.trailingAnchor,padding: .init(top: 0, left: 15, bottom: 15, right: 20))
-        label2.anchor(top: nil, leading: overlayView2.leadingAnchor, bottom: overlayView2.bottomAnchor, trailing: overlayView2.trailingAnchor,padding: .init(top: 0, left: 15, bottom: 15, right: 20))
-        label3.anchor(top: nil, leading: overlayView3.leadingAnchor, bottom: overlayView3.bottomAnchor, trailing: overlayView3.trailingAnchor,padding: .init(top: 0, left: 15, bottom: 15, right: 20))
+        let zz = getStack(views: image1,image2, spacing: 16, distribution: .fillEqually, axis: .vertical)
+        let ss = getStack(views: headingLabel,optionBtn, spacing: 16, distribution: .fill, axis: .horizontal)
+
+      let dd =   hstack(zz,image3,spacing:16)
+        stack(ss,dd,spacing:16)
         
     }
 }
